@@ -57,8 +57,10 @@
   <!-- underscore template -->
   <script type="text/template" id="currentTaskList-template">
     <div class="currenttasks">
-      <p>
+      <p> <span class="task-text">
          <%= task %> - <%= due %>
+         </span>
+      <button type="button" class="close delete" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </p>
       <hr>
     </div>

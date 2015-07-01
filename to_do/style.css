@@ -2,3 +2,8 @@
 	text-decoration: line-through;
 	color: red;
 }
+
+.task-text:hover {
+  cursor: pointer;
+  text-decoration: line-through;
+}

@@ -1,11 +1,20 @@
 $(function() {
 
-  // form to create a new task
-  var $newTask = $('#new_task');
+  // form to create a new task 
+  // var $newTask = $('#new_task');
+    // using constructor
+  function NewTask(task, due)
+    this.task = task;
+    this.due = due;
+    this.all = []
+  }
 
-  // element to hold our list of tasks
+  // array element to hold our list of tasks --? 
   var $currentTaskList = $('#currentTaskList');
-
+  
+  //push the new variable (new task) to the array 
+push 
+splice 
   // tasks template
   var tasksTemplate = _.template($('#currentTaskList-template').html());
 
@@ -26,7 +35,7 @@ $(function() {
 
 
   // submit form to create a new task
-  $newTask.on('submit', function(event) {
+    $newTask.on('submit', function(event) {
     event.preventDefault();
 
     // create new task object from form data
@@ -45,32 +54,41 @@ $(function() {
     $currentTaskList.append($task);
 
 
-    // // reset the form and add autofocus back to first input
-    // $newTask[0].reset();
-    // $('#task_name').focus();
   });
 
-  // remove tasks from model and view
-  $currentTaskList.on("click", ".delete", function () {
-    var $task= $(this).closest(".task");
-    var index = $task.attr('data-index');
+  // reset the form
+    $newTask[0].reset();
+    $('#task-name').focus();
 
-    // remove task from the `tasks` array (model)
+
+  // add class to todo on click to mark it as done
+    $currentTaskList.on('click', '.task-text', function() {
+    $(this).toggleClass('done');
+  });
+
+
+  // remove todo from model and view
+  $currentTaskList.on("click", ".delete", function () {
+    var $task = $(this).closest(".currenttasks");
+    var index = $task.attr('data-index');
+    console.log($task)
+
+    // remove todo from the `toDos` array (model)
     tasks.splice(index, 1);
     console.log(tasks);
 
-    // remove pet from the DOM (view)
+    // remove todo from the DOM (view)
     $task.remove();
 
-    // reset indexes in DOM to match `tasks` array
+    // reset indexes in DOM to match `toDos` array
     // $.each loops through DOM elements
-    // $('.currenttask').each(function(index) {
-    //   $(this).attr('data-index', index);
-
-    // });
-
+    $('.currenttasks').each(function(index) {
+      $(this).attr('data-index', index);
     });
+  });
 });
+
+
 
 
 
