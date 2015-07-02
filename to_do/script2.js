@@ -1,92 +1,85 @@
 $(function() {
 
-  // form to create a new task 
-  // var $newTask = $('#new_task');
-    // using constructor
-  function NewTask(task, due)
-    this.task = task;
-    this.due = due;
-    this.all = []
-  }
+var $newTask = $('#new_task');
+var $currentTaskList = $('#currentTaskList')
+// constructor
+var NewTask = function (task, due) {
+  this.task = task;
+  this.due = due;
+}
 
-  // array element to hold our list of tasks --? 
-  var $currentTaskList = $('#currentTaskList');
-  
-  //push the new variable (new task) to the array 
-push 
-splice 
-  // tasks template
-  var tasksTemplate = _.template($('#currentTaskList-template').html());
+// array 
+NewTask.all = [];
 
-  // start with seed data
-  var tasks = [
-    {task: "Pay rent", due: "06/30"},
-    {task: "Fax taxes", due: "06/30"},
-    {task: "Grocery shop", due: "06/30"}
-  ];
 
-  // append our existing tasks (from seed data) to `$currentTaskList`
-  _.each(tasks, function (task, index) {
+// submit form to create a new task
+$newTask.on('submit', function(event) {
+event.preventDefault();
+var taskName = $('#task_name').val();
+var taskDue = $('#task_due').val();
+// var taskData = {task: taskName, due: taskDue};
+var task = new NewTask(taskName, taskDue)
+console.log(task)
+task.save()
+task.render()
+}); 
+
+// push the new task created above to the array 
+
+NewTask.prototype.save = function() {
+  NewTask.all.push(this)
+  console.log(NewTask.all)
+};
+
+// display the array in the DOM
+var tasksTemplate = _.template($('#currentTaskList-template').html());
+
+NewTask.prototype.render = function() {
+
+_.each(NewTask.all, function (task, index) {
     var $task = $(tasksTemplate(task));
-    $task.attr('data-index', index);
+    $task.attr('data-index', index)
     $currentTaskList.append($task);
-    console.log('seed array works')
+    console.log('render works')
 });
 
+};
+});
 
-  // submit form to create a new task
-    $newTask.on('submit', function(event) {
-    event.preventDefault();
+  // append existing todos (from seed data) to `$toDoList`
+  // `_.each` is an "iterator" function provided by Underscore.js
 
-    // create new task object from form data
-    var taskName = $('#task_name').val();
-    var taskDue = $('#task_due').val();
-    var taskData = {task: taskName, due: taskDue};
-
-    // store our new task in the `tasks` array
-    tasks.push(taskData);
-    console.log(tasks);
-    var index = tasks.indexOf(taskData);
-
-    // append new task to `$currentTaskList`
-    var $task = $(tasksTemplate(taskData));
-    $task.attr('data-index', index);
-    $currentTaskList.append($task);
-
-
-  });
-
-  // reset the form
-    $newTask[0].reset();
-    $('#task-name').focus();
+  // // reset the form
+  //   $newTask[0].reset();
+  //   $('#task-name').focus();
 
 
   // add class to todo on click to mark it as done
-    $currentTaskList.on('click', '.task-text', function() {
-    $(this).toggleClass('done');
-  });
+  //   $currentTaskList.on('click', '.task-text', function() {
+  //   $(this).toggleClass('done');
+  // });
 
 
   // remove todo from model and view
-  $currentTaskList.on("click", ".delete", function () {
-    var $task = $(this).closest(".currenttasks");
-    var index = $task.attr('data-index');
-    console.log($task)
+  // $currentTaskList.on("click", ".delete", function () {
+  //   var $task = $(this).closest(".currenttasks");
+  //   var index = $task.attr('data-index');
+  //   console.log($task)
 
     // remove todo from the `toDos` array (model)
-    tasks.splice(index, 1);
-    console.log(tasks);
+    // tasks.splice(index, 1);
+    // console.log(tasks);
 
     // remove todo from the DOM (view)
-    $task.remove();
+    // $task.remove();
 
     // reset indexes in DOM to match `toDos` array
     // $.each loops through DOM elements
-    $('.currenttasks').each(function(index) {
-      $(this).attr('data-index', index);
-    });
-  });
-});
+    // $('.currenttasks').each(function(index) {
+    //   $(this).attr('data-index', index);
+    // });
+
+
 
 
 
